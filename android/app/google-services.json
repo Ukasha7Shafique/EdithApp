@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "177667252439",
+    "project_id": "edith-1bc90",
+    "storage_bucket": "edith-1bc90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177667252439:android:ce803d38ce50a34d401092",
+        "android_client_info": {
+          "package_name": "com.example.edith"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177667252439-be9g2ut9d878ocgd5s3dqilpgiifiq22.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.edith",
+            "certificate_hash": "e3d88d59ead17f1759dfa6318497730b6f0c786b"
+          }
+        },
+        {
+          "client_id": "177667252439-7jmrq1aib6vllqo5ppk5pl83n42brk1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA63fPiOOQz-4UdFK8PJiKDdzGSmGC2tN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177667252439-7jmrq1aib6vllqo5ppk5pl83n42brk1h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
