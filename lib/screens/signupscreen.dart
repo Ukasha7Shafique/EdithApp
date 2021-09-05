@@ -214,12 +214,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () => googleSignIn().whenComplete(() async {
-                      final user = FirebaseAuth.instance.currentUser;
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => DownloadScreen()));
-                      SharedPreferences pref =
-                          await SharedPreferences.getInstance();
-                      pref.setString('mail', user!.email.toString());
                     }),
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 10),

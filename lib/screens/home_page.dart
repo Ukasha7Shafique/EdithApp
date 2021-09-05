@@ -30,9 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 MaterialPageRoute(
                   builder: (context) => DownloadScreen(),
                 ));
-            final user = FirebaseAuth.instance.currentUser;
-            SharedPreferences pref = await SharedPreferences.getInstance();
-            pref.setString('mail', user!.email.toString());
           } else {
             showDialog(
               context: context,
@@ -192,10 +189,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () => googleSignIn().whenComplete(() async {
-                      final user = FirebaseAuth.instance.currentUser;
-                      SharedPreferences pref =
-                          await SharedPreferences.getInstance();
-                      pref.setString('mail', user!.email.toString());
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => DownloadScreen()));
                     }),

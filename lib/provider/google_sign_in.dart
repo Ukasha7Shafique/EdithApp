@@ -31,6 +31,8 @@ showErrDialog(BuildContext context, String err) {
 // many unhandled google error exist
 // will push them soon
 Future googleSignIn() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  // pref.setString('mail', user!.email.toString());
   GoogleSignInAccount? googleSignInAccount = await gooleSignIn.signIn();
 
   if (googleSignInAccount != null) {
@@ -44,6 +46,7 @@ Future googleSignIn() async {
 
     final user = auth.currentUser;
     print(user!.uid);
+    pref.setString('mail', user.email.toString());
 
     return Future.value(true);
   }
@@ -51,6 +54,7 @@ Future googleSignIn() async {
 
 // returning user to directly access UserID
 Future signin(String email, String password, BuildContext context) async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
   try {
     final auth = FirebaseAuth.instance;
     final result =
@@ -58,6 +62,7 @@ Future signin(String email, String password, BuildContext context) async {
     final user = result.user;
     // return Future.value(true);
     if (user!.emailVerified) {
+      pref.setString('mail', user.email.toString());
       return Future.value(user);
     }
     return Future.value(null);
