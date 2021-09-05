@@ -42,7 +42,7 @@ Future googleSignIn() async {
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken);
 
-    final result = await auth.signInWithCredential(credential);
+    await auth.signInWithCredential(credential);
 
     final user = auth.currentUser;
     print(user!.uid);
