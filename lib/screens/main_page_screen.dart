@@ -57,21 +57,6 @@ class _DownloadScreenState extends State<DownloadScreen> {
   void initState() {
     super.initState();
     futureFiles = FirebaseApi.listAll();
-
-    ///register a send port for the other isolates
-    IsolateNameServer.registerPortWithName(
-        _receivePort.sendPort, "downloading");
-
-    ///Listening for the data is comming other isolataes
-    _receivePort.listen((message) {
-      setState(() {
-        progress = message[2];
-      });
-
-      print(progress);
-    });
-
-    FlutterDownloader.registerCallback(downloadingCallback);
   }
 
   @override
@@ -313,35 +298,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar1);
                                     // store to trusted user table
-                                    // delete from request table
-                                    Reference ref = file.ref;
-                                    final String url =
-                                        await ref.getDownloadURL();
-                                    final status =
-                                        await Permission.storage.request();
 
-                                    if (status.isGranted) {
-                                      final externalDir =
-                                          await getExternalStorageDirectory();
-
-                                      final id =
-                                          await FlutterDownloader.enqueue(
-                                        url: url,
-                                        savedDir: externalDir!.path,
-                                        fileName: file.name,
-                                        showNotification: true,
-                                        openFileFromNotification: true,
-                                      );
-                                    } else {
-                                      print("Permission deined");
-                                    }
-                                    // await FirebaseApi.downloadjFile(file.ref);
-
-                                    final snackBar = SnackBar(
-                                        content:
-                                            Text('Downloaded ${file.name}'));
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
+                                    await FirebaseApi.downloadFile(file.ref);
                                   },
                                   child: new Text('Yes',
                                       style: TextStyle(color: Colors.blue)),
