@@ -13,7 +13,7 @@ class VoiceButton extends StatefulWidget {
 class _VoiceButtonState extends State<VoiceButton> {
   SpeechToText? _speech;
   bool _isListening = false;
-  String _text = "Press the button and start speeking";
+  String _text = "";
 
   @override
   void initState() {
@@ -51,27 +51,69 @@ class _VoiceButtonState extends State<VoiceButton> {
           Padding(
             padding: EdgeInsets.only(top: 10.0, left: 10.0),
           ),
-          SizedBox(height: 25.0),
+          SizedBox(height: 10.0),
           Padding(
-            padding: EdgeInsets.only(left: 40.0),
-            child: Row(
-              children: <Widget>[
-                Text('Voice',
+            padding: EdgeInsets.only(left: 30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: <Widget>[
+                    Text('Voice',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25.0)),
+                    SizedBox(width: 10.0),
+                    Text('Command',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                            fontSize: 25.0)),
+                    SizedBox(width: 60.0),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return AlertDialog(
+                                title:
+                                    Text('Guidence for using voice commands'),
+                                content: Container(
+                                  height: 90,
+                                  child: Column(
+                                    children: [],
+                                  ),
+                                ),
+                                actions: [
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Ok'),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      icon: Icon(Icons.note_rounded),
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Text('Kindly tap the mic button to input voice command:)',
                     style: TextStyle(
                         fontFamily: 'Montserrat',
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0)),
-                SizedBox(width: 10.0),
-                Text('Command',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Colors.white,
-                        fontSize: 25.0))
+                        fontSize: 18.0)),
               ],
             ),
           ),
-          SizedBox(height: 40.0),
+          SizedBox(
+            height: 10,
+          ),
           Container(
             height: MediaQuery.of(context).size.height - 185.0,
             decoration: BoxDecoration(
@@ -79,22 +121,15 @@ class _VoiceButtonState extends State<VoiceButton> {
               borderRadius: BorderRadius.only(topLeft: Radius.circular(75.0)),
             ),
             child: Container(
-              padding: EdgeInsets.only(top: 40, left: 15),
-              child: _isListening
-                  ? Text(
-                      _text,
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 18.0,
-                        color: Colors.black,
-                      ),
-                    )
-                  : Text('Kindly tap the mic button to input voice command:)',
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.black,
-                          fontSize: 18.0)),
-            ),
+                padding: EdgeInsets.only(top: 40, left: 15),
+                child: Text(
+                  _text,
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 18.0,
+                    color: Colors.black,
+                  ),
+                )),
           ),
         ],
       ),
@@ -108,6 +143,9 @@ class _VoiceButtonState extends State<VoiceButton> {
         onError: (val) => print('onError: $val'),
       );
       if (available) {
+        if (_text.isEmpty) {
+          _text = '';
+        }
         setState(() {
           _isListening = true;
         });

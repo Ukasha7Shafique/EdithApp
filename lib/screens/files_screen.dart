@@ -95,9 +95,12 @@ class _FilePageState extends State<FilePage> {
                           children: [
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.deepPurple[300],
-                                minimumSize: Size.fromHeight(50),
-                              ),
+                                  primary: Colors.deepPurple[300],
+                                  minimumSize: Size.fromHeight(50),
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0),
+                                  )),
                               child: Text('Select File'),
                               onPressed: selectFile,
                             ),
@@ -112,6 +115,9 @@ class _FilePageState extends State<FilePage> {
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.deepPurple[300],
                                 minimumSize: Size.fromHeight(50),
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),
                               ),
                               child: Text('Upload File'),
                               onPressed: uploadFile,
