@@ -34,7 +34,7 @@ class _ConnectedFileScreenState extends State<ConnectedFileScreen> {
                   fontWeight: FontWeight.bold,
                   fontSize: 25.0)),
           centerTitle: true,
-          backgroundColor: Color(0xFF21BFBD),
+          backgroundColor: Colors.deepPurple[300],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(30),
@@ -47,10 +47,10 @@ class _ConnectedFileScreenState extends State<ConnectedFileScreen> {
               onPressed: () => DownloadScreen.startVOiceInput(context),
             ),
           ],
-          shadowColor: Color(0xFF21BFBD),
+          shadowColor: Colors.deepPurple[200],
         ),
         drawer: AppDrawer(),
-        backgroundColor: Color(0xFF21BFBD),
+        backgroundColor: Colors.deepPurple[200],
         body: ListView(
           children: <Widget>[
             Padding(
@@ -97,14 +97,32 @@ class _ConnectedFileScreenState extends State<ConnectedFileScreen> {
                                     child: Text('Some error occurred!'));
                               } else {
                                 final files = snapshot.data;
-
+                                if (files!.isEmpty) {
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      const SizedBox(
+                                          width: 20.0, height: 100.0),
+                                      const Text(
+                                        'Nothing to show...',
+                                        style: TextStyle(
+                                          fontSize: 32.0,
+                                          fontStyle: FontStyle.italic,
+                                          fontFamily: 'Horizon',
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                          width: 20.0, height: 100.0),
+                                    ],
+                                  );
+                                }
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SizedBox(height: 12),
                                     Expanded(
                                       child: ListView.builder(
-                                        itemCount: files!.length,
+                                        itemCount: files.length,
                                         itemBuilder: (context, index) {
                                           final file = files[index];
                                           Size size =
@@ -191,7 +209,8 @@ class _ConnectedFileScreenState extends State<ConnectedFileScreen> {
                                 new TextButton(
                                   onPressed: () => Navigator.of(context).pop(),
                                   child: new Text('No',
-                                      style: TextStyle(color: Colors.red)),
+                                      style: TextStyle(
+                                          color: Colors.redAccent[700])),
                                 ),
                                 new TextButton(
                                   onPressed: () async {

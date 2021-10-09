@@ -1,18 +1,15 @@
-import 'dart:io';
-import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:edith/models/firebase_file.dart';
 import 'package:edith/provider/firebase_api.dart';
 import 'package:edith/widget/app_drawer.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../Widget/voice_button.dart';
+
 // import '../models/firebase_file.dart';
 // import 'package:open_file/open_file.dart';
 
@@ -43,16 +40,6 @@ class _DownloadScreenState extends State<DownloadScreen> {
   final user = FirebaseAuth.instance.currentUser;
   late Future<List<FirebaseFile>> futureFiles;
 
-  ReceivePort _receivePort = ReceivePort();
-
-  static downloadingCallback(id, status, progress) {
-    ///Looking up for a send port
-    final sendPort = IsolateNameServer.lookupPortByName("downloading");
-
-    ///ssending the data
-    sendPort!.send([id, status, progress]);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -65,12 +52,9 @@ class _DownloadScreenState extends State<DownloadScreen> {
       appBar: AppBar(
         title: Text('Edith',
             style: TextStyle(
-                fontFamily: 'Montserrat',
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 25.0)),
+                fontFamily: 'Horizonn', color: Colors.white, fontSize: 25.0)),
         centerTitle: true,
-        backgroundColor: Color(0xFF21BFBD),
+        backgroundColor: Colors.deepPurple[300],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30),
@@ -83,10 +67,15 @@ class _DownloadScreenState extends State<DownloadScreen> {
             onPressed: () => DownloadScreen.startVOiceInput(context),
           ),
         ],
-        shadowColor: Color(0xFF21BFBD),
+        shadowColor: Colors.deepPurple[200],
       ),
       drawer: AppDrawer(),
-      backgroundColor: Color(0xFF21BFBD),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => DownloadScreen.startVOiceInput(context),
+        child: const Icon(Icons.mic),
+        backgroundColor: Colors.deepPurple[300],
+      ),
+      backgroundColor: Colors.deepPurple[200],
       body: ListView(
         children: <Widget>[
           Padding(
@@ -97,18 +86,11 @@ class _DownloadScreenState extends State<DownloadScreen> {
             padding: EdgeInsets.only(left: 40.0),
             child: Row(
               children: <Widget>[
-                Text('Main',
+                Text('Home Page',
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Horizonn',
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
                         fontSize: 25.0)),
-                SizedBox(width: 10.0),
-                Text('Page',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Colors.white,
-                        fontSize: 25.0))
               ],
             ),
           ),
@@ -140,13 +122,47 @@ class _DownloadScreenState extends State<DownloadScreen> {
                             } else {
                               final files = snapshot.data;
 
+                              if (files!.isEmpty) {
+                                return Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    const SizedBox(width: 20.0, height: 100.0),
+                                    const Text(
+                                      'Start',
+                                      style: TextStyle(
+                                        fontSize: 32.0,
+                                        fontStyle: FontStyle.italic,
+                                        fontFamily: 'Horizon',
+                                      ),
+                                    ),
+                                    const SizedBox(width: 20.0, height: 100.0),
+                                    DefaultTextStyle(
+                                      style: const TextStyle(
+                                        fontSize: 40.0,
+                                        color: Colors.deepPurple,
+                                        fontStyle: FontStyle.italic,
+                                        fontFamily: 'Horizon',
+                                      ),
+                                      child: AnimatedTextKit(
+                                          repeatForever: true,
+                                          isRepeatingAnimation: true,
+                                          animatedTexts: [
+                                            RotateAnimatedText('Connecting'),
+                                            RotateAnimatedText('Sending'),
+                                            RotateAnimatedText('Receiving'),
+                                          ]),
+                                    ),
+                                  ],
+                                );
+                              }
+
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const SizedBox(height: 12),
                                   Expanded(
                                     child: ListView.builder(
-                                      itemCount: files!.length,
+                                      itemCount: files.length,
                                       itemBuilder: (context, index) {
                                         final file = files[index];
                                         Size size = MediaQuery.of(context).size;
@@ -292,9 +308,10 @@ class _DownloadScreenState extends State<DownloadScreen> {
                                 new TextButton(
                                   onPressed: () async {
                                     Navigator.of(context).pop();
+
                                     final snackBar1 = SnackBar(
                                         content: Text(
-                                            'Downloading ${file.name}.......'));
+                                            'Downloaded ${file.name}.......'));
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar1);
                                     // store to trusted user table
@@ -330,15 +347,4 @@ class _DownloadScreenState extends State<DownloadScreen> {
           ),
         ),
       );
-  Future<bool> _requestPermission(Permission permission) async {
-    if (await permission.isGranted) {
-      return true;
-    } else {
-      var result = await permission.request();
-      if (result == PermissionStatus.granted) {
-        return true;
-      }
-    }
-    return false;
-  }
 }

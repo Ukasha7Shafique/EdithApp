@@ -25,7 +25,7 @@ class _VoiceButtonState extends State<VoiceButton> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal[700],
+        backgroundColor: Colors.deepPurple[300],
         title: Text('Edith Voice Page',
             style: TextStyle(
                 fontFamily: 'Montserrat',
@@ -39,11 +39,11 @@ class _VoiceButtonState extends State<VoiceButton> {
           ),
         ),
       ),
-      backgroundColor: Colors.teal[700],
+      backgroundColor: Colors.deepPurple[200],
       floatingActionButton: FloatingActionButton(
         onPressed: _listen,
         child: Icon(_isListening ? Icons.mic : Icons.mic_none),
-        backgroundColor: Colors.teal[700],
+        backgroundColor: Colors.deepPurple[300],
         hoverColor: Colors.teal[100],
       ),
       body: ListView(

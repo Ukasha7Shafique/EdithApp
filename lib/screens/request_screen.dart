@@ -36,7 +36,7 @@ class _RequestScreen extends State<RequestScreen> {
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0)),
         centerTitle: true,
-        backgroundColor: Color(0xFF69F0AE),
+        backgroundColor: Colors.deepPurple[300],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30),
@@ -49,10 +49,10 @@ class _RequestScreen extends State<RequestScreen> {
             onPressed: () => DownloadScreen.startVOiceInput(context),
           ),
         ],
-        shadowColor: Color(0xFF69F0AE),
+        shadowColor: Colors.deepPurple[200],
       ),
       drawer: AppDrawer(),
-      backgroundColor: Color(0xFF69F0AE),
+      backgroundColor: Colors.deepPurple[200],
       body: ListView(
         children: <Widget>[
           Padding(
@@ -63,14 +63,7 @@ class _RequestScreen extends State<RequestScreen> {
             padding: EdgeInsets.only(left: 40.0),
             child: Row(
               children: <Widget>[
-                Text('Incoming',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0)),
-                SizedBox(width: 10.0),
-                Text('Requests',
+                Text('Incoming Requests',
                     style: TextStyle(
                         fontFamily: 'Montserrat',
                         color: Colors.white,
@@ -92,7 +85,7 @@ class _RequestScreen extends State<RequestScreen> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                         child: CircularProgressIndicator(
-                          color: Color(0xFF69F0AE),
+                          color: Colors.deepPurple[300],
                         ),
                       );
                     } else {
@@ -210,7 +203,7 @@ Widget requestCard(BuildContext context, String id, String name, String email) {
                             new TextButton(
                               onPressed: () => Navigator.of(context).pop(),
                               child: new Text('No',
-                                  style: TextStyle(color: Colors.red)),
+                                  style: TextStyle(color: Colors.red[900])),
                             ),
                             new TextButton(
                               onPressed: () async {
@@ -226,12 +219,14 @@ Widget requestCard(BuildContext context, String id, String name, String email) {
                                 // delete from request table
                                 String? uid =
                                     FirebaseAuth.instance.currentUser!.email;
-                                FirebaseFirestore.instance
+                                await FirebaseFirestore.instance
                                     .collection('request')
                                     .doc('users')
                                     .collection(uid.toString())
                                     .doc(id)
                                     .delete();
+                                Navigator.of(context).pushReplacementNamed(
+                                    RequestScreen.routeName);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content: Text('Request Declined')));

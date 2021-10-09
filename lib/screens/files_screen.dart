@@ -37,7 +37,7 @@ class _FilePageState extends State<FilePage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0)),
         centerTitle: true,
-        backgroundColor: Color(0xFF69F0AE),
+        backgroundColor: Colors.deepPurple[300],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30),
@@ -50,10 +50,10 @@ class _FilePageState extends State<FilePage> {
             onPressed: () => DownloadScreen.startVOiceInput(context),
           ),
         ],
-        shadowColor: Color(0xFF69F0AE),
+        shadowColor: Colors.deepPurple[200],
       ),
       drawer: AppDrawer(),
-      backgroundColor: Color(0xFF69F0AE),
+      backgroundColor: Colors.deepPurple[200],
       body: ListView(
         children: <Widget>[
           Padding(
@@ -64,16 +64,9 @@ class _FilePageState extends State<FilePage> {
             padding: EdgeInsets.only(left: 40.0),
             child: Row(
               children: <Widget>[
-                Text('Upload',
+                Text('Upload Page',
                     style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0)),
-                SizedBox(width: 10.0),
-                Text('Page',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'Horizonn',
                         color: Colors.white,
                         fontSize: 25.0))
               ],
@@ -102,7 +95,7 @@ class _FilePageState extends State<FilePage> {
                           children: [
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: Color(0xFF69F0AE),
+                                primary: Colors.deepPurple[300],
                                 minimumSize: Size.fromHeight(50),
                               ),
                               child: Text('Select File'),
@@ -117,7 +110,7 @@ class _FilePageState extends State<FilePage> {
                             SizedBox(height: 150),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: Color(0xFF69F0AE),
+                                primary: Colors.deepPurple[300],
                                 minimumSize: Size.fromHeight(50),
                               ),
                               child: Text('Upload File'),

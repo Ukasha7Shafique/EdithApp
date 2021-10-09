@@ -1,5 +1,6 @@
 import 'package:edith/screens/main_page_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:edith/models/onboard_page_item.dart';
@@ -7,6 +8,7 @@ import 'package:edith/widget/fading_sliding_widget.dart';
 import 'package:edith/screens/onboard/welcome_page.dart';
 import 'package:edith/screens/onboard/onboard_page.dart';
 import 'package:edith/screens/home_page.dart';
+import 'dart:io';
 
 class Onboard extends StatefulWidget {
   @override
@@ -16,13 +18,8 @@ class Onboard extends StatefulWidget {
 class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
   List<OnboardPageItem> onboardPageItems = [
     OnboardPageItem(
-      lottieAsset: 'assets/animations/work_from_home.json',
-      text: 'See friends stories and events going on around you',
-      animationDuration: const Duration(milliseconds: 1100),
-    ),
-    OnboardPageItem(
       lottieAsset: 'assets/animations/group_working.json',
-      text: 'See friends stories and events going on around you',
+      text: 'Do all your office work in a lively manner',
       animationDuration: const Duration(milliseconds: 1100),
     ),
   ];
@@ -105,9 +102,47 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
                 SharedPreferences pref = await SharedPreferences.getInstance();
                 String? check = pref.getString('mail');
                 if (check == null) {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return LoginScreen();
-                  }));
+                  try {
+                    final result = await InternetAddress.lookup('example.com');
+                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return LoginScreen();
+                      }));
+                    }
+                  } on SocketException catch (_) {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return AlertDialog(
+                          title: new Text("No Internet Connection"),
+                          content: Container(
+                            height: 70,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Instructions",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                    'Check your internet connection and try again'),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            OutlinedButton(
+                              onPressed: () => SystemNavigator.pop(),
+                              child: Text("Exit"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 } else {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return DownloadScreen();

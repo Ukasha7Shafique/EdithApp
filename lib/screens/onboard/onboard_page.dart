@@ -62,7 +62,8 @@ class _OnboardState extends State<OnboardPage>
               child: Text(
                 widget.onboardPageItem.text,
                 style: TextStyle(
-                  fontSize: width * 0.05,
+                  color: Colors.blueGrey[900],
+                  fontSize: width * 0.06,
                   fontFamily: 'ProductSans',
                 ),
                 textAlign: TextAlign.center,

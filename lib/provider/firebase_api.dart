@@ -65,7 +65,7 @@ class FirebaseApi with ChangeNotifier {
       await tempFile.delete();
     }
     await tempFile.create();
-    final task = ref.writeToFile(tempFile);
+    ref.writeToFile(tempFile);
     final String name = ref.name;
     final String path = ref.fullPath;
     print(

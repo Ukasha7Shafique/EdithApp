@@ -106,10 +106,10 @@ class _WelcomeState extends State<WelcomePage>
                 animationController: _animationController,
                 interval: const Interval(0.5, 0.9),
                 child: Text(
-                  'Edith',
+                  'A.I. Virtual Assistant',
                   style: TextStyle(
                     color: const Color(0xFFFFFFFF),
-                    fontSize: width * 0.08,
+                    fontSize: width * 0.06,
                     fontFamily: 'ProductbSans',
                   ),
                 ),
@@ -123,7 +123,7 @@ class _WelcomeState extends State<WelcomePage>
                   animationController: _animationController,
                   interval: const Interval(0.7, 1.0),
                   child: Text(
-                    'Your personal voice assistant and File transfer App',
+                    'Your Smart Assistant is here....',
                     style: TextStyle(
                       color: const Color(0xFFFFFFFF),
                       fontSize: width * 0.056,

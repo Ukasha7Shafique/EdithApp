@@ -1,8 +1,7 @@
 import 'package:edith/widget/background_login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../provider/google_sign_in.dart';
 import '../screens/signupScreen.dart';
 import 'main_page_screen.dart';
@@ -17,8 +16,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String? email;
   String? password;
+  int counter = 3;
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
+  bool _obscureText = true;
+  Icon passIcon = Icon(Icons.visibility_off);
   void login() {
     if (formkey.currentState!.validate()) {
       formkey.currentState!.save();
@@ -31,42 +32,82 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (context) => DownloadScreen(),
                 ));
           } else {
-            showDialog(
-              context: context,
-              builder: (_) {
-                return AlertDialog(
-                  title: new Text("An Error Occured..."),
-                  content: Container(
-                    height: 70,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Reasons",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text('1) User is not registered.'),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text('2) Verify user'),
-                      ],
+            if (counter <= 1) {
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: new Text("You can not login again"),
+                    content: Container(
+                      height: 60,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Kindly try again after sometime",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  actions: <Widget>[
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text("Ok"),
+                    actions: <Widget>[
+                      OutlinedButton(
+                        onPressed: () {
+                          SystemNavigator.pop();
+                        },
+                        child: Text("Ok"),
+                      ),
+                    ],
+                  );
+                },
+              );
+              counter = 3;
+            } else {
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: new Text("An Error Occured..."),
+                    content: Container(
+                      height: 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Reasons",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text('1) User is not registered.'),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text('2) Verify user'),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            'You have $counter tries left',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                );
-              },
-            );
+                    actions: <Widget>[
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Ok"),
+                      ),
+                    ],
+                  );
+                },
+              );
+              counter--;
+            }
           }
         },
       );
@@ -135,15 +176,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(29),
                         ),
                         child: TextFormField(
-                          obscureText: true,
+                          obscureText: _obscureText,
                           decoration: InputDecoration(
                               hintText: "Password",
                               icon: Icon(
                                 Icons.lock,
                                 color: Color(0xFF6F35A5),
                               ),
-                              suffixIcon: Icon(
-                                Icons.visibility,
+                              suffixIcon: IconButton(
+                                icon: passIcon,
+                                onPressed: () {
+                                  setState(
+                                    () {
+                                      _obscureText = !_obscureText;
+                                      //below is the  conditional statement changing the suffix icon based on the value of _obscureText
+                                      _obscureText
+                                          ? passIcon =
+                                              Icon(Icons.visibility_off)
+                                          : passIcon = Icon(Icons.visibility);
+                                    },
+                                  );
+                                },
                                 color: Color(0xFF6F35A5),
                               ),
                               border: InputBorder.none,
@@ -157,6 +210,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           onChanged: (val) {
                             password = val;
                           },
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          margin: EdgeInsets.only(left: 150),
+                          child: Text(
+                            "Forget Password?",
+                            style: TextStyle(
+                              color: Color(0xFF6F35A5),
+                            ),
+                          ),
                         ),
                       ),
                       Container(
@@ -183,33 +248,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () => googleSignIn().whenComplete(() async {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => DownloadScreen()));
-                    }),
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2,
-                          color: Color(0xFFF1E6FF),
-                        ),
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/icons/google-plus.svg",
-                        height: 20,
-                        width: 20,
-                      ),
-                    ),
-                  ),
-                ],
               ),
               SizedBox(
                 height: 10.0,

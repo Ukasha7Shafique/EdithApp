@@ -35,7 +35,7 @@ class _ViewConnectionState extends State<ViewConnection> {
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0)),
         centerTitle: true,
-        backgroundColor: Color(0xFF69F0AE),
+        backgroundColor: Colors.deepPurple[300],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30),
@@ -48,10 +48,10 @@ class _ViewConnectionState extends State<ViewConnection> {
             onPressed: () => DownloadScreen.startVOiceInput(context),
           ),
         ],
-        shadowColor: Color(0xFF69F0AE),
+        shadowColor: Colors.deepPurple[200],
       ),
       drawer: AppDrawer(),
-      backgroundColor: Color(0xFF69F0AE),
+      backgroundColor: Colors.deepPurple[200],
       body: ListView(
         children: <Widget>[
           Padding(
@@ -62,14 +62,7 @@ class _ViewConnectionState extends State<ViewConnection> {
             padding: EdgeInsets.only(left: 40.0),
             child: Row(
               children: <Widget>[
-                Text('Connected',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0)),
-                SizedBox(width: 10.0),
-                Text(' devices',
+                Text('Trusted devices',
                     style: TextStyle(
                         fontFamily: 'Montserrat',
                         color: Colors.white,

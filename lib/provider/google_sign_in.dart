@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edith/screens/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 final gooleSignIn = GoogleSignIn();
@@ -58,7 +61,7 @@ Future signin(String email, String password, BuildContext context) async {
   try {
     final auth = FirebaseAuth.instance;
     final result =
-        await auth.signInWithEmailAndPassword(email: email, password: email);
+        await auth.signInWithEmailAndPassword(email: email, password: password);
     final user = result.user;
     // return Future.value(true);
     if (user!.emailVerified) {
@@ -102,6 +105,13 @@ Future signUp(
     final user = result.user;
     user!.updateDisplayName(name);
     user.sendEmailVerification();
+    String id = Uuid().v4();
+    FirebaseFirestore.instance
+        .collection('registeredUsers')
+        .doc('users')
+        .collection(email.toString())
+        .doc(id)
+        .set({"id": id, "name": user.displayName, "email": email.toString()});
     return Future.value(user);
     // return Future.value(true);
   } catch (error) {
@@ -120,10 +130,11 @@ Future signUp(
   }
 }
 
-Future signOutUser() async {
-  await gooleSignIn.disconnect();
-  FirebaseAuth.instance.signOut();
+void signOutUser(BuildContext context) async {
+  // await gooleSignIn.disconnect();
+  // FirebaseAuth.instance.signOut();
   SharedPreferences pref = await SharedPreferences.getInstance();
   pref.remove('mail');
-  return Future.value(true);
+  Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+  // return Future.value(true);
 }

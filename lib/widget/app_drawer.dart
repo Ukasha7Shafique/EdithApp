@@ -22,11 +22,6 @@ class AppDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'User Info',
-                  style: TextStyle(
-                      fontSize: size.width * 0.07, color: Colors.black),
-                ),
                 SizedBox(
                   height: size.height * 0.01,
                 ),
@@ -34,7 +29,7 @@ class AppDrawer extends StatelessWidget {
                   user!.displayName.toString(),
                   style: TextStyle(
                       fontSize: size.width * 0.08,
-                      color: Colors.blue,
+                      color: Colors.black87,
                       fontWeight: FontWeight.bold),
                 ),
                 Row(
@@ -44,18 +39,19 @@ class AppDrawer extends StatelessWidget {
                       child: Icon(
                         FontAwesomeIcons.solidEnvelope,
                         size: size.width * 0.04,
-                        color: Colors.grey,
+                        color: Colors.blueGrey[600],
                       ),
                     ),
                     Text(user!.email.toString(),
                         style: TextStyle(
-                            fontSize: size.width * 0.04, color: Colors.grey)),
+                            fontSize: size.width * 0.04,
+                            color: Colors.black87)),
                   ],
                 )
               ],
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.deepPurple[200],
             ),
           ),
           ListTile(
@@ -86,7 +82,7 @@ class AppDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.mobile_screen_share),
-            title: Text('View Connections'),
+            title: Text('Trusted Users'),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context)
@@ -109,7 +105,7 @@ class AppDrawer extends StatelessWidget {
             title: Text('Logout'),
             onTap: () {
               Navigator.of(context).pop();
-              signOutUser();
+              signOutUser(context);
             },
           ),
         ],
