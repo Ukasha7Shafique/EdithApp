@@ -1,9 +1,10 @@
+import 'package:edith/screens/signupscreen.dart';
 import 'package:edith/widget/background_login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import '../provider/google_sign_in.dart';
-import '../screens/signupScreen.dart';
 import 'main_page_screen.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -15,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String? email;
+  String? forgetMail;
   String? password;
   int counter = 3;
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
@@ -213,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: forgetPass,
                         child: Container(
                           margin: EdgeInsets.only(left: 150),
                           child: Text(
@@ -255,8 +257,8 @@ class _LoginScreenState extends State<LoginScreen> {
               InkWell(
                 onTap: () {
                   // send to login screen
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => SignUpScreen()));
+                  Navigator.of(context)
+                      .pushReplacementNamed(SignUpScreen.routeName);
                 },
                 child: Text(
                   "Sign Up Here",
@@ -268,5 +270,68 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void forgetPass() async {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: new Text("Please provide your email"),
+            content: Container(
+              height: 90,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                        icon: Icon(
+                          Icons.person,
+                          color: Color(0xFF6F35A5),
+                        ),
+                        // border: InputBorder.none,
+                        labelText: "Email"),
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: "This Field Is Required"),
+                      EmailValidator(errorText: "Invalid Email Address"),
+                    ]),
+                    onChanged: (val) {
+                      forgetMail = val;
+                    },
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              OutlinedButton(
+                onPressed: () async {
+                  try {
+                    await FirebaseAuth.instance
+                        .sendPasswordResetEmail(email: forgetMail.toString());
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Email Send Successfully')));
+                  } on Exception catch (e) {
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return AlertDialog(
+                            title: Text('Invalid Email'),
+                            actions: [
+                              OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Ok'))
+                            ],
+                          );
+                        });
+                  }
+                },
+                child: Text("Send mail"),
+              ),
+            ],
+          );
+        });
   }
 }

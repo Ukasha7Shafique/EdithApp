@@ -33,27 +33,6 @@ showErrDialog(BuildContext context, String err) {
 
 // many unhandled google error exist
 // will push them soon
-Future googleSignIn() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  // pref.setString('mail', user!.email.toString());
-  GoogleSignInAccount? googleSignInAccount = await gooleSignIn.signIn();
-
-  if (googleSignInAccount != null) {
-    GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
-    AuthCredential credential = GoogleAuthProvider.credential(
-        idToken: googleSignInAuthentication.idToken,
-        accessToken: googleSignInAuthentication.accessToken);
-
-    await auth.signInWithCredential(credential);
-
-    final user = auth.currentUser;
-    print(user!.uid);
-    pref.setString('mail', user.email.toString());
-
-    return Future.value(true);
-  }
-}
 
 // returning user to directly access UserID
 Future signin(String email, String password, BuildContext context) async {

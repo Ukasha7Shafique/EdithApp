@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:edith/screens/onboard/onboard.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:edith/screens/signupscreen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       home: Onboard(),
       routes: {
         LoginScreen.routeName: (ctx) => LoginScreen(),
+        SignUpScreen.routeName: (ctx) => SignUpScreen(),
         FilePage.routeName: (ctx) => FilePage(),
         DownloadScreen.routeName: (ctx) => DownloadScreen(),
         ConnectScreen.routeName: (ctx) => ConnectScreen(),

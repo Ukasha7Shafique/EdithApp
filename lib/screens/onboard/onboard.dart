@@ -105,10 +105,8 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
                   try {
                     final result = await InternetAddress.lookup('example.com');
                     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return LoginScreen();
-                      }));
+                      Navigator.of(context)
+                          .pushReplacementNamed(LoginScreen.routeName);
                     }
                   } on SocketException catch (_) {
                     showDialog(
@@ -144,9 +142,8 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
                     );
                   }
                 } else {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return DownloadScreen();
-                  }));
+                  Navigator.of(context)
+                      .pushReplacementNamed(DownloadScreen.routeName);
                 }
               },
               child: FadingSlidingWidget(

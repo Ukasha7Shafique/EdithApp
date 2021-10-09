@@ -6,6 +6,7 @@ import '../screens/home_page.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 class SignUpScreen extends StatefulWidget {
+  static const routeName = '/Signupscreen';
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -274,8 +275,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               InkWell(
                 onTap: () {
                   // send to login screen
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                  Navigator.of(context)
+                      .pushReplacementNamed(LoginScreen.routeName);
                 },
                 child: Text(
                   "Login Here",
