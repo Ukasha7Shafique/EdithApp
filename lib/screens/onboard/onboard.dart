@@ -142,8 +142,45 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
                     );
                   }
                 } else {
-                  Navigator.of(context)
-                      .pushReplacementNamed(DownloadScreen.routeName);
+                  try {
+                    final result = await InternetAddress.lookup('example.com');
+                    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(DownloadScreen.routeName);
+                    }
+                  } on SocketException catch (_) {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return AlertDialog(
+                          title: new Text("No Internet Connection"),
+                          content: Container(
+                            height: 70,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Instructions",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                    'Check your internet connection and try again'),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            OutlinedButton(
+                              onPressed: () => SystemNavigator.pop(),
+                              child: Text("Exit"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 }
               },
               child: FadingSlidingWidget(

@@ -149,7 +149,7 @@ class _ConnectedFileScreenState extends State<ConnectedFileScreen> {
   Widget buildFile(BuildContext context, FirebaseFile file, Size size) =>
       GestureDetector(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40.0),
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Center(
             child: Container(
               width: size.width * 0.95,
@@ -214,18 +214,11 @@ class _ConnectedFileScreenState extends State<ConnectedFileScreen> {
                                 ),
                                 new TextButton(
                                   onPressed: () async {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) => Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                    );
                                     // store to trusted user table
                                     // delete from request table
 
                                     await FirebaseApi.downloadFile(file.ref);
+                                    Navigator.pop(context);
 
                                     final snackBar = SnackBar(
                                         content:

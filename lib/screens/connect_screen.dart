@@ -235,8 +235,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
     final qn = await FirebaseFirestore.instance
         .collection('registeredUsers')
         .doc('users')
-        .collection(uid.toString())
-        .where('email', isEqualTo: ConnectScreen._data['email'].toString())
+        .collection(ConnectScreen._data['email'].toString())
         .get();
     qn.docs;
     if (qn.docs.isEmpty) {

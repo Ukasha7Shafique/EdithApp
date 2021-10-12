@@ -189,7 +189,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
   Widget buildFile(BuildContext context, FirebaseFile file, Size size) =>
       GestureDetector(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40.0),
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Center(
             child: Container(
               width: size.width * 0.95,
@@ -213,7 +213,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 10.0, top: 5),
+                        padding: const EdgeInsets.only(left: 5.0, top: 5),
                         child: Icon(Icons.folder),
                       ),
                       Container(
@@ -307,7 +307,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
                                 ),
                                 new TextButton(
                                   onPressed: () async {
-                                    Navigator.of(context).pop();
+                                    await FirebaseApi.downloadFile(file.ref);
+                                    Navigator.pop(context);
 
                                     final snackBar1 = SnackBar(
                                         content: Text(
@@ -315,8 +316,6 @@ class _DownloadScreenState extends State<DownloadScreen> {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar1);
                                     // store to trusted user table
-
-                                    await FirebaseApi.downloadFile(file.ref);
                                   },
                                   child: new Text('Yes',
                                       style: TextStyle(color: Colors.blue)),
