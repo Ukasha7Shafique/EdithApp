@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../provider/utils.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 
 class VoiceButton extends StatefulWidget {
   const VoiceButton({Key? key}) : super(key: key);
@@ -40,11 +41,20 @@ class _VoiceButtonState extends State<VoiceButton> {
         ),
       ),
       backgroundColor: Colors.deepPurple[200],
-      floatingActionButton: FloatingActionButton(
-        onPressed: _listen,
-        child: Icon(_isListening ? Icons.mic : Icons.mic_none),
-        backgroundColor: Colors.deepPurple[300],
-        hoverColor: Colors.teal[100],
+      floatingActionButton: AvatarGlow(
+        startDelay: Duration(milliseconds: 1000),
+        glowColor: Colors.deepPurple,
+        endRadius: 45.0,
+        duration: Duration(milliseconds: 2000),
+        repeat: true,
+        // showTwoGlows: true,
+        repeatPauseDuration: Duration(milliseconds: 100),
+        child: FloatingActionButton(
+          onPressed: _listen,
+          child: Icon(_isListening ? Icons.mic : Icons.mic_none),
+          backgroundColor: Colors.deepPurple[300],
+          hoverColor: Colors.teal[100],
+        ),
       ),
       body: ListView(
         children: <Widget>[
@@ -81,9 +91,12 @@ class _VoiceButtonState extends State<VoiceButton> {
                                 title:
                                     Text('Guidence for using voice commands'),
                                 content: Container(
-                                  height: 90,
+                                  height: 120,
                                   child: Column(
-                                    children: [],
+                                    children: [
+                                      Text(
+                                          "Some availble commands for now are:\n \n1) Writing Mail \n2) Opening YouTube \n3) Checking Weather"),
+                                    ],
                                   ),
                                 ),
                                 actions: [
@@ -97,13 +110,21 @@ class _VoiceButtonState extends State<VoiceButton> {
                               );
                             });
                       },
-                      icon: Icon(Icons.note_rounded),
+                      icon: AvatarGlow(
+                          startDelay: Duration(milliseconds: 1000),
+                          glowColor: Colors.white,
+                          endRadius: 45.0,
+                          duration: Duration(milliseconds: 2000),
+                          repeat: true,
+                          // showTwoGlows: true,
+                          repeatPauseDuration: Duration(milliseconds: 100),
+                          child: Icon(Icons.note_add_outlined)),
                       color: Colors.white,
                     ),
                   ],
                 ),
                 SizedBox(height: 10),
-                Text('Kindly tap the mic button to input voice command:)',
+                Text('Kindly tap the mic button to input voice command :)',
                     style: TextStyle(
                         fontFamily: 'Montserrat',
                         color: Colors.white,

@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Widget/voice_button.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 
 // import '../models/firebase_file.dart';
 // import 'package:open_file/open_file.dart';
@@ -70,10 +71,20 @@ class _DownloadScreenState extends State<DownloadScreen> {
         shadowColor: Colors.deepPurple[200],
       ),
       drawer: AppDrawer(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => DownloadScreen.startVOiceInput(context),
-        child: const Icon(Icons.mic),
-        backgroundColor: Colors.deepPurple[300],
+      floatingActionButton: AvatarGlow(
+        startDelay: Duration(milliseconds: 1000),
+        glowColor: Colors.deepPurple,
+        endRadius: 45.0,
+        duration: Duration(milliseconds: 2000),
+        repeat: true,
+        // showTwoGlows: true,
+        repeatPauseDuration: Duration(milliseconds: 100),
+
+        child: FloatingActionButton(
+          onPressed: () => DownloadScreen.startVOiceInput(context),
+          child: const Icon(Icons.mic),
+          backgroundColor: Colors.deepPurple[300],
+        ),
       ),
       backgroundColor: Colors.deepPurple[200],
       body: ListView(
